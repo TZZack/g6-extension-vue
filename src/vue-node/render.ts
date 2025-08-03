@@ -1,0 +1,59 @@
+import type { VNode } from 'vue-demi';
+import { isVue2, isVue3, Vue2, render as vue3Render } from 'vue-demi';
+
+const VUE_MARK = '__vue_node_root__';
+
+export type ContainerType = Element & {
+  [VUE_MARK]?: typeof Vue2 | null;
+};
+
+export async function render(
+  component: VNode | (() => VNode),
+  container: ContainerType,
+  isUpdate = false,
+) {
+  try {
+    const vNode = typeof component === 'function' ? component() : component;
+
+    if (isVue2) {
+      // vue2加个update处理，更新节点时避免创建新实例
+      if (isUpdate && container[VUE_MARK]) {
+        const vm = container[VUE_MARK];
+        vm.$options.render = () => vNode;
+        vm.$forceUpdate();
+        return;
+      }
+      const vm = new Vue2({
+        render: () => vNode,
+      });
+      const el = document.createElement('div');
+      container.appendChild(el);
+      vm.$mount(el);
+      container[VUE_MARK] = vm;
+    } else if (isVue3) {
+      vue3Render(vNode, container);
+    }
+  } catch (error) {
+    console.error('Error rendering Vue Node:', error);
+  }
+}
+
+export async function unmount(container: ContainerType) {
+  if (!container) {
+    return;
+  }
+
+  if (isVue3) {
+    // 清除container内所有DOM节点和对应的vue组件实例
+    vue3Render(null, container);
+  } else if (isVue2) {
+    if (container[VUE_MARK]) {
+      // 销毁实例
+      container[VUE_MARK].$destroy();
+      container[VUE_MARK] = null;
+      // 清除DOM
+      container.innerHTML = '';
+    }
+  }
+  return container;
+}
