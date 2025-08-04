@@ -9,7 +9,7 @@ import type { NodeData } from '@antv/g6';
 import type { DemoNodeData } from './types';
 import { ref, h, onMounted } from 'vue';
 import { register, ExtensionCategory, Graph } from '@antv/g6';
-import { VueNode } from '@TZZack/g6-extension-vue';
+import { VueNode } from '@tzzack/g6-extension-vue';
 import DemoNode from './node.vue';
 
 // 注册Vue节点类型

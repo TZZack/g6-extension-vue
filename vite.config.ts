@@ -12,7 +12,7 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@TZZack/g6-extension-vue': path.resolve(__dirname, './src'),
+      '@tzzack/g6-extension-vue': path.resolve(__dirname, './src'),
     }
   }
 })
