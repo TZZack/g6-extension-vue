@@ -7,14 +7,12 @@ export type ContainerType = Element & {
   [VUE_MARK]?: typeof Vue2 | null;
 };
 
-export async function render(
-  component: VNode | (() => VNode),
+export function render(
+  vNode: VNode,
   container: ContainerType,
   isUpdate = false,
 ) {
   try {
-    const vNode = typeof component === 'function' ? component() : component;
-
     if (isVue2) {
       // vue2加个update处理，更新节点时避免创建新实例
       if (isUpdate && container[VUE_MARK]) {
@@ -33,8 +31,8 @@ export async function render(
     } else if (isVue3) {
       vue3Render(vNode, container);
     }
-  } catch (error) {
-    console.error('Error rendering Vue Node:', error);
+  } catch (e) {
+    console.error(e);
   }
 }
 
@@ -43,10 +41,7 @@ export async function unmount(container: ContainerType) {
     return;
   }
 
-  if (isVue3) {
-    // 清除container内所有DOM节点和对应的vue组件实例
-    vue3Render(null, container);
-  } else if (isVue2) {
+  if (isVue2) {
     if (container[VUE_MARK]) {
       // 销毁实例
       container[VUE_MARK].$destroy();
@@ -54,6 +49,8 @@ export async function unmount(container: ContainerType) {
       // 清除DOM
       container.innerHTML = '';
     }
+  } else if (isVue3) {
+    // vue3只需要render(null, container)，清除container内所有DOM节点和对应的vue组件实例
+    vue3Render(null, container);
   }
-  return container;
 }

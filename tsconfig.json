@@ -1,7 +1,36 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "compilerOptions": {
+    // 基础编译选项
+    "target": "ES6",
+    "module": "esnext",
+    "outDir": "dist",
+    
+    // 模块解析相关
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "paths": {
+      "@tzzack/g6-extension-vue": ["./src/index.ts"]
+    },
+
+    // 类型检查相关
+    "strict": true,
+    "strictNullChecks": false,
+    "skipLibCheck": true,
+    "types": ["node"],
+    "declaration": true,
+
+    // JSX处理
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+
+    // 其他配置
+    "isolatedModules": true,
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "pretty": true
+  },
+  "include": ["src/**/*", "__tests__/**/*"],
+  "exclude": ["node_modules"]
 }

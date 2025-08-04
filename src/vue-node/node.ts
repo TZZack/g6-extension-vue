@@ -1,7 +1,4 @@
-import type {
-  DisplayObjectConfig,
-  HTMLStyleProps as GHTMLStyleProps,
-} from '@antv/g';
+import type { DisplayObjectConfig, HTMLStyleProps as GHTMLStyleProps } from '@antv/g';
 import type { BaseNodeStyleProps, HTMLStyleProps } from '@antv/g6';
 import { HTML } from '@antv/g6';
 import type { VNode } from 'vue-demi';
@@ -9,11 +6,11 @@ import { render, unmount } from './render';
 
 export interface VueNodeStyleProps extends BaseNodeStyleProps {
   /**
-   * <zh/> Vue 组件
+   * <zh/> Vue 虚拟节点
    *
-   * <en/> Vue component
+   * <en/> Vue VNode
    */
-  component: VNode | (() => VNode);
+  component: VNode;
 }
 
 export class VueNode extends HTML {
@@ -32,8 +29,7 @@ export class VueNode extends HTML {
   public async connectedCallback() {
     super.connectedCallback();
     const { component } = this.attributes as unknown as VueNodeStyleProps;
-    // component 已经被回调机制自动创建为Vue的虚拟节点 - VNode
-    // component has been automatically created as VNode by the callback mechanism
+    // component 是通过 style.component 的回调返回来的VNode
     await render(component, this.getDomElement(), false);
   }
 
