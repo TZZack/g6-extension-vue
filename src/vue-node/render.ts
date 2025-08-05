@@ -1,5 +1,8 @@
 import type { VNode } from 'vue-demi';
-import { isVue2, isVue3, Vue2, Vue as Vue3 } from 'vue-demi';
+// https://github.com/vueuse/vue-demi/pull/43
+// vue-demi's Vue has been deprecated
+import * as Vue from 'vue';
+import { Vue2, isVue2, isVue3 } from 'vue-demi';
 
 const VUE_MARK = '__vue_node_root__';
 
@@ -29,7 +32,7 @@ export function render(
       vm.$mount(el);
       container[VUE_MARK] = vm;
     } else if (isVue3) {
-      Vue3.render(vNode, container);
+      Vue.render(vNode, container);
     }
   } catch (e) {
     console.error(e);
@@ -51,6 +54,6 @@ export async function unmount(container: ContainerType) {
     }
   } else if (isVue3) {
     // vue3只需要render(null, container)，清除container内所有DOM节点和对应的vue组件实例
-    Vue3.render(null, container);
+    Vue.render(null, container);
   }
 }
