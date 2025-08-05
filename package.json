@@ -1,6 +1,6 @@
 {
   "name": "@tzzack/g6-extension-vue",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "description": "Using Vue Component to Define Your G6 Graph Node",
   "keywords": [
