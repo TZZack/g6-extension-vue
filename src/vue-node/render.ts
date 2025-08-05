@@ -1,5 +1,5 @@
 import type { VNode } from 'vue-demi';
-import { isVue2, isVue3, Vue2, render as vue3Render } from 'vue-demi';
+import { isVue2, isVue3, Vue2, Vue as Vue3 } from 'vue-demi';
 
 const VUE_MARK = '__vue_node_root__';
 
@@ -29,7 +29,7 @@ export function render(
       vm.$mount(el);
       container[VUE_MARK] = vm;
     } else if (isVue3) {
-      vue3Render(vNode, container);
+      Vue3.render(vNode, container);
     }
   } catch (e) {
     console.error(e);
@@ -51,6 +51,6 @@ export async function unmount(container: ContainerType) {
     }
   } else if (isVue3) {
     // vue3只需要render(null, container)，清除container内所有DOM节点和对应的vue组件实例
-    vue3Render(null, container);
+    Vue3.render(null, container);
   }
 }
