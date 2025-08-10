@@ -5,7 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import DemoComp from './components/demo/index.vue';
+// import DemoComp from './components/demo/index.vue';
+import DemoComp from './components/demo/tsxdemo';
 </script>
 
 <style scoped>
